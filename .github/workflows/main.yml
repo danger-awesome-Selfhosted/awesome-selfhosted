@@ -25,8 +25,10 @@ jobs:
     - name: get changes only
       run: git diff master.. --unified=0 README.md | grep --perl-regexp --only-matching --silent "(?<=^\+).*" >> temp.md || (exit 0)
     - name: test
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: node tests/test.js temp.md
+    - name: awesome_bot
       run: awesome_bot temp.md --allow-redirect || (exit 0)
+    - name: Danger
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
       run: danger --dangerfile=tests/Dangerfile --verbose
