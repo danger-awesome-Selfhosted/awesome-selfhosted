@@ -24,7 +24,7 @@ jobs:
     - name: get changes only
       run: git diff origin/master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md || (exit 0)
     - name: test
-      run: node tests/test.js temp.md
+      run: node tests/test.js temp.md  || (exit 0)
     - name: awesome_bot
       run: awesome_bot temp.md --allow-redirect || (exit 0)
     - name: Danger
