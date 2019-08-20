@@ -22,7 +22,7 @@ jobs:
     - name: install danger
       run: gem install danger
     - name: get changes only
-      run: git diff master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md || (exit 0)
+      run: git diff origin/master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md || (exit 0)
     - name: test
       run: node tests/test.js temp.md
     - name: awesome_bot
