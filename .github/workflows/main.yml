@@ -1,0 +1,36 @@
+name: CI
+
+on: pull_request
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@master
+    - name: Use Ruby 
+      uses: actions/setup-ruby@v1
+      with:
+        version: 2.x
+    - name: install nodejs
+      uses: actions/setup-node@v1
+      with:
+        version: 10.x
+    - name: install awesome_bot
+      run: gem install awesome_bot
+    - name: install danger
+      run: gem install danger
+    - name: get changes only
+      run: git diff master.. --unified=0 README.md | grep --perl-regexp --only-matching --silent "(?<=^\+).*" >> temp.md || (exit 0)
+    - name: test 
+      run: node tests/test.js temp.md
+      run: awesome_bot temp.md --allow-redirect || (exit 0)
+      run: danger --dangerfile=tests/Dangerfile --verbose
+      
+      
+      
+      
+      env: GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+      
+        
