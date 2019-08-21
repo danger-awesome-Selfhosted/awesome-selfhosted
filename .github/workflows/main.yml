@@ -22,12 +22,12 @@ jobs:
     - name: install danger
       run: gem install danger
     - name: get changes only
-      run: git diff master.. -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md || (exit 0)
+      run: git diff origin/master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md || (exit 0)
     - name: test
-      run: node tests/test.js temp.md
+      run: node tests/test.js temp.md  || (exit 0)
     - name: awesome_bot
       run: awesome_bot temp.md --allow-redirect || (exit 0)
     - name: Danger
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+        GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}    
       run: danger --dangerfile=tests/Dangerfile --verbose
