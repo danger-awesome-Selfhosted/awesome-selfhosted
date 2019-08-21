@@ -29,5 +29,5 @@ jobs:
       run: awesome_bot temp.md --allow-redirect || (exit 0)
     - name: Danger
       env:
-        DANGER_GITHUB_TOKEN: ${{ secrets.GITHUB_API_TOKEN }}    
+        DANGER_GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}    
       run: danger --dangerfile=tests/Dangerfile --verbose
